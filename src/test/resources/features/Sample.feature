@@ -1,60 +1,32 @@
-@Sample
-Feature: Sample
+@Clockify
+Feature: clockify
+    @Listar_espacios_de_trabajos
+    Scenario:
+      Given base url https://api.clockify.me/api
+      And endpoint /v1/workspaces
+      And header Content-Type = application/json
+      And header Accept = */*
+      And header x-api-key = NGRhZjQ2ZTMtYTczYS00ZDk2LTk3ZGMtNDQ0MDNjZTFkNTFi
+      When execute method GET
+      Then the status code should be 200
+      * define iDworkspaces = $.[0].id
 
-  Background:
-    And header Content-Type = application/json
-    And header Accept = */*
+      @Agregar_clientes_a_scenarios
+      Scenario:
+        Given call Sample.feature@Clockify
+        And base url https://api.clockify.me/api/
+        And endpoint /v1/workspaces/{{iDworkspaces}}/clients
+        And header Content-Type = application/json
+        And header Accept = */*
+        And header x-api-key = NGRhZjQ2ZTMtYTczYS00ZDk2LTk3ZGMtNDQ0MDNjZTFkNTFi
+        And body addClient.json
+        When execute method POST
+        Then the status code should be 201
 
 
-  @RickAndMorty
-  Scenario Outline: Get character
-    Given base url env.base_url_rickAndMorty
-    And endpoint character/<id_character>
-    When execute method GET
-    Then the status code should be 200
-    And response should be $.name = <name>
-    And response should be $.status = <status>
-    And validate schema character.json
 
-    Examples:
-      | id_character | name         | status |
-      | 1            | Rick Sanchez | Alive  |
-      | 2            | Morty Smith  | Alive  |
 
-  @petstore
-  Scenario Outline: Add a new pet to the store
-    Given base url env.base_url_petstore
-    And endpoint pet
-    And header accept = application/json
-    And header Content-Type = application/json
-    And body body.json
-    When execute method POST
-    Then the status code should be 200
-    And response should be name = <name>
-    And validate schema pet.json
 
-    Examples:
-      | name   |
-      | doggie |
 
-  @petstore
-  Scenario Outline: Add a new pet to the store
-    Given base url env.base_url_petstore
-    And endpoint pet
-    And header accept = application/json
-    And header Content-Type = application/json
-    And delete keyValue tags[0].id in body body.json
-    And set value 15 of key tags[1].id in body body.json
-    And set value "tag2" of key tags[1].name in body body.json
-    When execute method POST
-    Then the status code should be 200
-    And response should be name = <name>
-    And validate schema pet.json
 
-    Examples:
-      | name   |
-      | doggie |
 
-      
-
-  
