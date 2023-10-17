@@ -25,8 +25,8 @@ Feature: clockify
       @Agregar_clientes_a_Workspaces
       Scenario: Agregar clientes
         Given call Sample.feature@Listar_espacios_de_trabajos
-        And base url https://api.clockify.me/api/
-        And endpoint /v1/workspaces/{{workspaceId}}/clients
+        And base url https://api.clockify.me/
+        And endpoint api/v1/workspaces/{{workspaceId}}/clients
         And header Content-Type = application/json
         And header Accept = */*
         And header x-api-key = NGRhZjQ2ZTMtYTczYS00ZDk2LTk3ZGMtNDQ0MDNjZTFkNTFi
